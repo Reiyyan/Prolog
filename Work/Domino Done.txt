@@ -1,0 +1,30 @@
+domino_cycle(C):-
+    is_list(C),
+	[F | _] = C,
+	last(C, L),
+    (F1, _) = F,
+    (_, L2) = L,
+    between(1, 6, F1),
+    between(1, 6, L2),
+	F1 =:= L2,
+    is_cyclic(C).
+
+is_pair(A,B):-
+    (_,A2) = A,
+    (B1,_) = B,
+    between(1, 6, A2),
+    between(1, 6, B1),
+    A2 = B1.
+
+is_cyclic(L):- length(L,1), true.
+
+is_cyclic(L):-
+    [A, B | _] = L,
+    (_,A2) = A,
+    (B1,_) = B,
+    between(1, 6, A2),
+    between(1, 6, B1),
+    A2 = B1,
+    [_ | T] = L,
+    is_cyclic(T).
+

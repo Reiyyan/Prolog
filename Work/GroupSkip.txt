@@ -1,0 +1,12 @@
+group_and_skip(N, Out, In, Leftovers):-
+    group_and_skip(N, Out, In, Leftovers, []).
+
+group_and_skip(0, _, _, Leftovers, Collector):- Leftovers = Collector, !.
+group_and_skip(N, Out, In, Leftovers, Collector):-
+    Groups is N//Out,
+    Remainder is N mod Out,
+    [Remainder | Collector] = NC,
+    NewN is In * Groups,
+    group_and_skip(NewN, Out, In, Leftovers, NC).
+
+

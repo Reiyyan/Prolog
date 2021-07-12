@@ -1,0 +1,61 @@
+riffle(L, R, Result, left):-
+    not(is_list(Result)),
+	length(L, X),
+    length(R, Y), 
+    X > 0, Y > 0,
+    X =:= Y,
+    %write("Both Equal"),
+    riffle(L, R, [], Result, left).
+
+riffle(L, R, Result, right):-
+    not(is_list(Result)),
+	length(L, X),
+    length(R, Y), 
+    X > 0, Y > 0,
+    X =:= Y,
+    %write("Both Equal"),
+    riffle(L, R, [], Result, right).
+    %(Mode == right -> write(right); write(left)).
+
+riffle(L, R, Result, Mode):-
+    is_list(Result),
+    %write("In Other"),
+    !,
+    rifBuild(L, R, Result, Mode).
+
+riffle(L, R, Collector, Result, left):-
+    %write(left),
+    [HL | TL] = L,
+    [HR | TR] = R,
+	riffle(TL, TR, [HR, HL | Collector], Result, left), !.
+
+riffle(L, R,Collector, Result, right):-
+    %write(right),
+    [HL | TL] = L,
+    [HR | TR] = R,
+	riffle(TL, TR, [HL, HR | Collector], Result, right), !.
+
+riffle([], [], Collector, Result, _):- !, reverse(Collector, Result), !.
+
+rifBuild(L, R, List, M):-
+    rifBuildLeft([], [], List, M, L, R).
+
+rifBuild(L, R, List, M):-
+    rifBuildRight([], [], List, M, L, R).
+    
+rifBuildLeft(LL, RL, List, M, L, R):-
+    [F, S | T] = List,
+	[F | LL] = NL,
+    [S | RL] = NR,
+    %M = left,
+    rifBuildLeft(NL, NR, T, M, L, R).
+
+rifBuildLeft(LL, RL, [], M, L, R):- reverse(LL,L), reverse(RL,R), M=left.
+
+rifBuildRight(LL, RL, List, M, L, R):-
+    [F, S | T] = List,
+	[S | LL] = NL,
+    [F | RL] = NR,
+    rifBuildRight(NL, NR, T, M, L, R),!.
+
+rifBuildRight(LL, RL, [], M, L, R):- reverse(LL,L), reverse(RL,R), M=right.

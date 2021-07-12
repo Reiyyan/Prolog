@@ -1,0 +1,19 @@
+and(L,R) :- L,R.
+or(L,R) :- L;R.
+
+first_missing_positive(Items, Result):-
+    clean_list(Items, [], FinalList),
+    sort(FinalList, SortedList),
+    find_missing(SortedList, 1, Result).
+
+clean_list([], Current, Current):- !.
+clean_list(Items, Current, Final):-
+    %write(Items),nl,
+    [H | T] = Items,
+    (and(integer(H), H>0) ->  append([H], Current, NewCurrent), clean_list(T, NewCurrent, Final);
+    clean_list(T, Current, Final)).
+
+find_missing([], N, N):- !.
+find_missing(L, N, R):-
+    [H | T] = L,
+    (H =:= N -> N1 is N+1, find_missing(T, N1, R) ; !, N=R).

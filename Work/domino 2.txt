@@ -1,0 +1,44 @@
+domino_cycle(C):-
+    is_list(C),
+    %!,
+	[F | _] = C,
+	last(C, L),
+%    write(F),
+%    nl,
+%    write(L),
+    (F1, _) = F,
+    (_, L2) = L,
+    between(1, 6, F1),
+    between(1, 6, L2),
+	F1 =:= L2,
+    length(C, A),
+    A > 2,
+    domino_cycle_internal(C).
+
+domino_cycle_internal(C):-
+    is_list(C),
+    !,
+	[F, S | _] = C,
+	%last(C, L),
+    nl,
+    write(F),
+    nl,
+    write(S),
+    (F1, F2) = F,
+    (S1, S2) = S,
+    between(1, 6, F1),
+    between(1, 6, F2),
+    between(1, 6, S1),    
+    between(1, 6, S2),
+	F2 =:= S1,
+    [_ | T] = C,
+    domino_cycle_internal(T).
+
+domino_cycle_internal([]):-!.
+	
+	
+
+%Special Case, only 1
+%Base Case, Empty? Or no need
+
+%Rest

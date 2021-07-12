@@ -1,0 +1,19 @@
+:- use_module(library(clpfd)).
+%three_summers(+Items, +Goal, -A, -B, -C):-
+ %   write("Hi").
+
+two_summers([], _, _, _):- !.
+two_summers(Items, Goal, A, B):-
+    write(Items),
+	[F | T] = Items,
+	test_num(F, T, Goal, A, B),
+    findall(
+    %call(two_summers(T, Goal, X, Y)).
+	
+test_num(F, L, G, A, B):-
+    [S | T] = L,
+    (F + S =:= G -> A #= F, B #= S, write(A), nl, write(B), nl; test_num(F, T, G, A, B)).
+
+
+%test(List):-
+ %   X in 3..9, X+Y#=10, labeling([leftmost], [X,Y]).

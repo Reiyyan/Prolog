@@ -1,0 +1,53 @@
+only_odd_digits(X) :- X =< 0, !, fail.
+
+only_odd_digits(X) :-
+	%write(X), nl,
+	integer(X),
+    %write(X),
+	%number_chars(X, Y),
+    numToList(X, [], Y),
+    %write(Y),
+	[A | B] = Y,
+%    write(A),
+ %   write(B),
+	is_odd(A, B).
+
+%is_odd([]) :- write("Here 1"), !, true.
+is_odd(H, _):- H mod 2 =:= 0, !, fail.
+is_odd(_, []):- !, true.
+is_odd(_, T):- 
+    %write("Here 4"),
+    [A | B] = T,
+    %write(A),
+    %write(B),
+    is_odd(A, B).
+
+numToList(N, L, X):- N < 10,!, append([N], L, X).
+numToList(N, L, X):- 
+	Digit is N mod 10,
+    N2 is N // 10,
+    append([Digit], L, L2),
+    numToList(N2, L2, X).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+only_odd_digits(X) :- X =< 0, !, fail.
+
+only_odd_digits(X) :-
+	integer(X),
+    numToList(X, [], Y),
+	[A | B] = Y,
+	is_odd(A, B).
+
+is_odd(H, _):- H mod 2 =:= 0, !, fail.
+is_odd(_, []):- !, true.
+is_odd(_, T):- 
+    [A | B] = T,
+    is_odd(A, B).
+
+numToList(N, L, X):- N < 10,!, append([N], L, X).
+numToList(N, L, X):- 
+	Digit is N mod 10,
+    N2 is N // 10,
+    append([Digit], L, L2),
+    numToList(N2, L2, X).

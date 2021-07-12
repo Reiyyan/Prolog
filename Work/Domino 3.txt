@@ -1,0 +1,63 @@
+domino_cycle(C):- 
+    is_list(C), 
+    length(C,1), 
+    !, 
+    domino_base(C).
+
+domino_cycle(C):- 
+    is_list(C), 
+    length(C,2),
+    !, 
+    write("in 2"),
+    domino_base(C).
+
+domino_cycle(C):- 
+    is_list(C), 
+    !, 
+    write("in More"),nl,
+    domino_chain(C, 1).
+
+domino_chain(C, G):- 
+    write(C),nl,
+    is_list(C), 
+   	%write("More"),
+    G =:= 1,
+    write("Hi"),
+    domino_long(C),
+    [F, S | _] = C,
+	%last(C, L),
+    %nl,
+    %write(F),
+    %nl,
+    %write(S),
+    (_, F2) = F,
+    (S1, _) = S,
+    %between(1, 6, F1),
+    between(1, 6, F2),
+    between(1, 6, S1),    
+    %between(1, 6, S2),
+	F2 =:= S1,
+    [_ | T] = C,
+    domino_chain(T, 0).
+
+
+domino_base(C):-
+    [F | _] = C,
+	last(C, L),
+    (F1, F2) = F,
+    (L1, L2) = L,
+    between(1, 6, F1),
+    between(1, 6, F2),
+    between(1, 6, L1),
+    between(1, 6, L2),
+	F1 =:= L2,
+    F2 =:= L1.
+
+domino_long(C):-
+    [F | _] = C,
+	last(C, L),
+    (F1, _) = F,
+    (_, L2) = L,
+    between(1, 6, F1),
+    between(1, 6, L2),
+	F1 =:= L2.

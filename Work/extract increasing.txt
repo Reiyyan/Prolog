@@ -1,0 +1,34 @@
+extract_increasing(Digits, Nums):-
+    string_chars(Digits, DigitList), 
+    [F, S| T] = DigitList, 
+    atom_number(F, NF),
+    atom_number(S, NS),
+	%extract_increasing_helper(DigitList, [], Nums).
+	increasing_helper(NF, NS, T, [NF], Nums).
+
+increasing_helper(First, Second, [], Collector, Nums):-
+    ( First < Second ->  
+    append([Second], Collector, NewCollector), reverse(NewCollector, Nums) ; reverse(Collector, Nums) ),
+    !.
+
+increasing_helper(First, Second, DigitList, Collector, Nums):-
+    First < Second,
+    append([Second], Collector, NewCollector),
+    write(NewCollector), nl,	
+    %write("First Smaller than Second"),
+    [Next | T] = DigitList,
+    atom_number(Next, NextInt),
+    increasing_helper(Second, NextInt, T, NewCollector, Nums), !.
+    %extract_increasing_helper(T, NewC, Nums).
+
+increasing_helper(First, Second, DigitList, Collector, Nums):-
+    %First < Second,
+    [Next | T] = DigitList,
+	string_concat(Second, Next, NewNext),
+    atom_number(NewNext, NextInt),
+    %append([Second], Collector, NewCollector),
+    %write(NewNext), nl,
+    %write("Was not larger"),
+    increasing_helper(First, NextInt, T, Collector, Nums).
+
+

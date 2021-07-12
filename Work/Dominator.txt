@@ -1,0 +1,15 @@
+count_dominators([], Result):-
+    Result = 0,!.
+
+count_dominators(Items, Result):-
+    reverse(Items, RevList),
+    dominator_helper(RevList, 0, 0, Result).
+
+dominator_helper([], _, Count, Result):-
+    Result is Count, !.
+
+dominator_helper(List, CurrentMax, Count, Result):-
+	[H | T] = List,
+    ( H > CurrentMax ->  
+    NewCount = Count + 1, dominator_helper(T, H, NewCount, Result) ;
+    dominator_helper(T, CurrentMax, Count, Result)).

@@ -1,0 +1,32 @@
+%slice(List, 0, Collector, Result, LeftOver):-	reverse(Collector, Result), LeftOver = List,!.
+slice(List, 0, Collector, Result, LeftOver):-	Collector = Result, LeftOver = List,!.
+
+slice(List, To, Collector, Result, LeftOver):-
+    [H | T] = List,
+    NextTo is To-1,
+    append([H], Collector, NextCollector),
+    slice(T, NextTo, NextCollector, Result, LeftOver).
+
+pancake_scramble(Text, Result):-
+    string_chars(Text, TextList),
+    length(TextList, Len),
+    Len < 2,
+    Result = Text, !.
+
+pancake_scramble(Text, Result):-
+    string_chars(Text, TextList),
+    length(TextList, Len),
+    Len >= 2,
+    scramble_helper(2, Len,TextList, Result).
+
+scramble_helper(Point, End, List, Result):-
+	Point =:= End,
+    reverse(List, TempResult),
+    string_chars(Result, TempResult),
+    !.
+
+scramble_helper(Point, End, List, Result):-
+    slice(List, Point, [], CutPart, LeftPart),
+	append(CutPart, LeftPart, Scrambled),
+    NewPoint = Point +1,
+    scramble_helper(NewPoint, End, Scrambled, Result).

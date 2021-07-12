@@ -1,0 +1,34 @@
+taxi_zum_zum(Moves, Pos):-
+   	string_chars(Moves, L),
+    [H | T] = L,
+	travel(H, T, (0,1), (0,0), Pos).
+
+travel('f', [], Facing, CurrentPosition, Pos):-
+    add_move(CurrentPosition, Facing, NextPosition),
+	Pos = NextPosition, !.
+travel(_, [], _, CurrentPosition, Pos):- Pos = CurrentPosition, !.
+
+travel('f', T, Facing, CurrentPosition, Pos):-
+    add_move(CurrentPosition, Facing, NextPosition),
+    [H | T2] = T,
+    travel(H, T2, Facing, NextPosition, Pos).
+
+travel('r', T, (0,1), CurrentPos, Pos):- Facing = (1,0), [H | T2] = T, travel(H, T2, Facing, CurrentPos, Pos).
+travel('l', T, (0,1), CurrentPos, Pos):- Facing = (-1,0), [H | T2] = T, travel(H, T2, Facing, CurrentPos, Pos).
+
+travel('r', T, (1,0), CurrentPos, Pos):- Facing = (0,-1), [H | T2] = T, travel(H, T2, Facing, CurrentPos, Pos).
+travel('l', T, (1,0), CurrentPos, Pos):- Facing = (0,1), [H | T2] = T, travel(H, T2, Facing, CurrentPos, Pos).
+
+travel('r', T, (0,-1), CurrentPos, Pos):- Facing = (-1,0), [H | T2] = T, travel(H, T2, Facing, CurrentPos, Pos).
+travel('l', T, (0,-1), CurrentPos, Pos):- Facing = (1,0), [H | T2] = T, travel(H, T2, Facing, CurrentPos, Pos).
+
+travel('r', T, (-1,0), CurrentPos, Pos):- Facing = (0,1), [H | T2] = T, travel(H, T2, Facing, CurrentPos, Pos).
+travel('l', T, (-1,0), CurrentPos, Pos):- Facing = (0,-1), [H | T2] = T, travel(H, T2, Facing, CurrentPos, Pos).
+
+add_move(X, Y, Z):-
+    (X1, X2) = X,
+    (Y1, Y2) = Y,
+    Z1 is X1 + Y1,
+    Z2 is X2 + Y2,
+    Z = (Z1, Z2).
+    

@@ -1,0 +1,42 @@
+riffle(L, R, Result, Mode):-
+	length(L, X),
+    length(R, Y),
+    X =:= Y,
+    write("Yes"),
+    !,
+    riffle(L, R, [], Result, Mode).
+    %(Mode == right -> write(right); write(left)).
+
+riffle(L, R, Collector, Result, left):-
+    %write(left),
+    [HL | TL] = L,
+    [HR | TR] = R,
+	riffle(TL, TR, [HR, HL | Collector], Result, left), !.
+
+riffle(L, R,Collector, Result, right):-
+    %write(right),
+    [HL | TL] = L,
+    [HR | TR] = R,
+	riffle(TL, TR, [HL, HR | Collector], Result, right), !.
+
+riffle([], [], Collector, Result, _):- !, reverse(Collector, Result), !.
+
+rifBuild(L, R, List, M):-
+    rifBuildLeft([], [], List, M, L, R).
+    %rifBuildRight(L, R, List, M).
+    
+rifBuildLeft(LL, RL, List, M, L, R):-
+    [F, S | T] = List,
+	[F | LL] = NL,
+    [S | RL] = NR,
+    %M = left,
+    rifBuildLeft(NL, NR, T, M, L, R).
+
+rifBuildLeft(LL, RL, [], M, L, R):- reverse(LL,L), reverse(RL,R), M=left.
+
+rifBuildRight(L, R, List, M):-
+    [F, S | T] = List,
+	[S | L] = NL,
+    [F | R] = NR,
+    M = right,
+    rifBuildRight(NL, NR, T, right).

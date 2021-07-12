@@ -1,0 +1,49 @@
+tukeys_ninther(Items, M):-
+    ninther_helper(Items, M), !.
+
+ninther_helper(Items, M):-
+    length(Items, 1),
+    [M | _] = Items.
+
+ninther_helper(Items, M):-
+	%middle(Items, M).
+    [A, B, C | T] = Items,
+	%Call Middle thing,
+	middle(A,B,C,T, Result),
+	ninther_helper(Result, M).
+
+%A,B,C
+middle(A, B, C, List, Result):-
+	A < B,
+    B < C,
+    append(List, [B], Result).
+
+%A,C,B
+middle(A, B, C, List, Result):-
+	A < C,
+    C < B,
+    append(List, [C], Result).
+
+%B,A,C
+middle(A, B, C, List, Result):-
+	B < A,
+    A < C,
+    append(List, [A], Result).
+
+%B,C,A
+middle(A, B, C, List, Result):-
+	B < C,
+    C < A,
+    append(List, [C], Result).
+
+%C,A,B
+middle(A, B, C, List, Result):-
+	C < A,
+    A < B,
+    append(List, [A], Result).
+
+%C,B,A
+middle(A, B, C, List, Result):-
+	C < B,
+    B < A,
+    append(List, [B], Result).
